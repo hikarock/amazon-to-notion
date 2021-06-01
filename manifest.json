@@ -7,16 +7,16 @@
     "https://api.notion.com/"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "src/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["https://www.amazon.co.jp/*"],
       "run_at": "document_idle",
-      "js": ["content.js"]
+      "js": ["src/content.js"]
     }
   ],
-  "options_page": "options.html",
+  "options_page": "src/options.html",
   "permissions": [
     "storage"
   ]
