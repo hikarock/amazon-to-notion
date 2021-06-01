@@ -1,6 +1,6 @@
 {
-  "name": "notion-books",
-  "description": "Notion の読書記録に本を追加するための Chrome 拡張機能。",
+  "name": "amazon-to-notion",
+  "description": "Amazon.co.jp の本を Notion に登録する Chrome 拡張機能。",
   "version": "0.1.0",
   "manifest_version": 3,
   "host_permissions": [
