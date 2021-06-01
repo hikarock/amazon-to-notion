@@ -1,0 +1,61 @@
+:root {
+  --primary-color: #eb5757;
+  --error-color: #eb5757;
+  --success-color: #7cbf8c;
+  --default-color: #333333;
+}
+html {
+  font-size: 16px;
+}
+textarea {
+  font-family: sans-serif;
+}
+.form {
+  width: 20rem;
+  display: grid;
+  row-gap: 0.5rem;
+}
+.input,
+.textarea,
+.select {
+  padding: 0.5rem;
+  border: 1px solid #9c9c9c;
+  border-radius: 0.25rem;
+}
+.select {
+  appearance: none;
+}
+.action {
+  display: flex;
+  justify-content: center;
+}
+.button {
+  border: none;
+  color: #ffffff;
+  background-color: var(--primary-color);
+  border-radius: 0.25rem;
+  width: 100%;
+  padding: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+.button:hover {
+  opacity: 0.75;
+}
+.button:active {
+  opacity: 0.5;
+}
+.alert {
+  display: none;
+  text-align: center;
+  padding: 0.5rem;
+}
+.alert.processing {
+  color: var(--default-color);
+}
+.alert.success {
+  color: var(--success-color);
+}
+.alert.error {
+  color: var(--error-color);
+}

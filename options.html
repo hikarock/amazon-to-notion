@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div id="toast" class="toast">Saved.</div>
+    <div class="settings">
+      <h1 class="heading">Notion API Settings</h1>
+      <form class="form">
+        <div class="inputs">
+          <label for="token" class="label">Integration Token</label>
+          <input
+            type="password"
+            id="token"
+            class="input"
+            placeholder="ex: secret_0aBc1DeF2gHi3JkL4mNo5PqR6sT7uVw8xYz9"
+          />
+          <label for="database-id" class="label">Parent Database ID</label>
+          <input
+            type="text"
+            id="database-id"
+            class="input"
+            placeholder="ex: abc1def2ghi3jkl4mno5pqr6stu7vwx8yz"
+          />
+        </div>
+        <div class="action">
+          <input id="save-button" class="button" value="Save" />
+        </div>
+      </form>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <form class="form">
+      <textarea
+        id="title"
+        class="textarea"
+        placeholder="Title"
+        required
+      ></textarea>
+      <input
+        type="text"
+        id="authors"
+        class="input"
+        placeholder="Authors"
+        required
+      />
+      <select id="media-type" class="select" required>
+        <option value="Book" selected>Book</option>
+        <option value="Kindle">Kindle</option>
+      </select>
+      <div class="action">
+        <input type="submit" id="button" class="button" value="Add to Notion" />
+      </div>
+      <div class="alert processing">Processing...</div>
+      <div class="alert success">Success!</div>
+      <div class="alert error">Error.</div>
+    </form>
+    <script src="popup.js"></script>
+  </body>
+</html>

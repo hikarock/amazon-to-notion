@@ -1,0 +1,11 @@
+{
+  "name": "amazon-to-notion",
+  "version": "1.0.0",
+  "description": "Amazon.co.jp の本を Notion に登録する Chrome 拡張機能。",
+  "author": "hikarock <i@hika69.com> (https://hika69.com/)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chrome": "^0.0.143",
+    "prettier": "^2.3.0"
+  }
+}
