@@ -4,8 +4,8 @@ const buttonElm = document.getElementById("save-button");
 const toastElm = document.getElementById("toast");
 
 chrome.storage.sync.get(["token", "databaseId"], ({ token, databaseId }) => {
-  tokenElm.value = token;
-  databaseIdElm.value = databaseId;
+  tokenElm.value = token ?? "";
+  databaseIdElm.value = databaseId ?? "";
 });
 
 const handleButtonClick = () => {
