@@ -53,45 +53,46 @@ const buildHeaders = ({ token, notionVersion }) => {
   };
 };
 
-const button = document.getElementById("button");
-const inputTitle = document.getElementById("title");
-const inputAuthors = document.getElementById("authors");
-const inputMediaType = document.getElementById("media-type");
+const buttonElm = document.getElementById("button");
+const inputTitleElm = document.getElementById("title");
+const inputAuthorsElm = document.getElementById("authors");
+const inputMediaTypeElm = document.getElementById("media-type");
+const processingElm = document.getElementById("processing");
+const successElm = document.getElementById("success");
+const errorElm = document.getElementById("error");
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(
     tabs[0].id,
     { type: "fetchMetaData" },
     ({ title, authors }) => {
-      inputTitle.value = title;
-      inputAuthors.value = authors;
+      inputTitleElm.value = title;
+      inputAuthorsElm.value = authors;
     }
   );
 });
 
-button.addEventListener("click", async (evt) => {
+buttonElm.addEventListener("click", async (evt) => {
   evt.preventDefault();
-  document.querySelector(".action").style.display = "none";
-  document.querySelector(".processing").style.display = "block";
+  buttonElm.style.display = "none";
+  processingElm.style.display = "block";
   const headers = buildHeaders({ token, notionVersion });
   const payload = buildPayload({
     databaseId,
-    title: inputTitle.value,
-    authors: inputAuthors.value,
-    mediaType: inputMediaType.value,
+    title: inputTitleElm.value,
+    authors: inputAuthorsElm.value,
+    mediaType: inputMediaTypeElm.value,
   });
   const res = await fetch(notionPagesApi, {
     method: "POST",
     headers,
     body: payload,
   }).finally(() => {
-    document.querySelector(".processing").style.display = "none";
+    processingElm.style.display = "none";
   });
   if (res.ok) {
-    document.querySelector(".success").style.display = "block";
-    console.info(res);
+    successElm.style.display = "block";
   } else {
-    document.querySelector(".error").style.display = "block";
-    console.error(res);
+    errorElm.style.display = "block";
   }
 });

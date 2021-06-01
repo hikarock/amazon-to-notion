@@ -25,10 +25,6 @@ textarea {
 .select {
   appearance: none;
 }
-.action {
-  display: flex;
-  justify-content: center;
-}
 .button {
   border: none;
   color: #ffffff;
