@@ -62,14 +62,10 @@ const successElm = document.getElementById("success");
 const errorElm = document.getElementById("error");
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.tabs.sendMessage(
-    tabs[0].id,
-    { type: "fetchMetaData" },
-    ({ title, authors }) => {
-      inputTitleElm.value = title;
-      inputAuthorsElm.value = authors;
-    }
-  );
+  chrome.tabs.sendMessage(tabs[0].id, { type: "fetchMetaData" }, (payload) => {
+    inputTitleElm.value = payload?.title ? payload.title : "";
+    inputAuthorsElm.value = payload?.authors ? payload.authors : "";
+  });
 });
 
 buttonElm.addEventListener("click", async (evt) => {
