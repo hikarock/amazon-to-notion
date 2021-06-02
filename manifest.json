@@ -21,7 +21,6 @@
         "https://www.amazon.co.jp/*",
         "https://www.amazon.com/*",
         "https://booklog.jp/item/*"
-
       ],
       "run_at": "document_idle",
       "js": ["src/js/content.js"]
