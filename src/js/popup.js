@@ -12,7 +12,7 @@ chrome.storage.sync.get(
   }
 );
 
-const buildPayload = ({ databaseId, title, authors, mediaType }) => {
+const buildPayload = ({ databaseId, title, authors, mediaType, url }) => {
   return JSON.stringify({
     parent: { database_id: databaseId },
     properties: {
@@ -21,6 +21,7 @@ const buildPayload = ({ databaseId, title, authors, mediaType }) => {
           {
             text: {
               content: title,
+              link: { url },
             },
           },
         ],
@@ -60,11 +61,13 @@ const inputMediaTypeElm = document.getElementById("media-type");
 const processingElm = document.getElementById("processing");
 const successElm = document.getElementById("success");
 const errorElm = document.getElementById("error");
+let url;
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(tabs[0].id, { type: "fetchMetaData" }, (payload) => {
     inputTitleElm.value = payload?.title ? payload.title : "";
     inputAuthorsElm.value = payload?.authors ? payload.authors : "";
+    url = payload.url;
   });
 });
 
@@ -78,6 +81,7 @@ buttonElm.addEventListener("click", async (evt) => {
     title: inputTitleElm.value,
     authors: inputAuthorsElm.value,
     mediaType: inputMediaTypeElm.value,
+    url,
   });
   const res = await fetch(notionPagesApi, {
     method: "POST",

@@ -32,5 +32,6 @@ chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
   } else if (isBooklog) {
     metaData = getMetaDataFromBooklog();
   }
+  metaData.url = location.href;
   sendResponse(metaData);
 });
