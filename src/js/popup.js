@@ -12,7 +12,14 @@ chrome.storage.sync.get(
   }
 );
 
-const buildPayload = ({ databaseId, title, authors, mediaType, url }) => {
+const buildPayload = ({
+  databaseId,
+  title,
+  authors,
+  publisher,
+  mediaType,
+  url,
+}) => {
   return JSON.stringify({
     parent: { database_id: databaseId },
     properties: {
@@ -31,6 +38,15 @@ const buildPayload = ({ databaseId, title, authors, mediaType, url }) => {
           {
             text: {
               content: authors,
+            },
+          },
+        ],
+      },
+      Publisher: {
+        rich_text: [
+          {
+            text: {
+              content: publisher,
             },
           },
         ],
@@ -57,6 +73,7 @@ const buildHeaders = ({ token, notionVersion }) => {
 const buttonElm = document.getElementById("button");
 const inputTitleElm = document.getElementById("title");
 const inputAuthorsElm = document.getElementById("authors");
+const inputPublisherElm = document.getElementById("publisher");
 const inputMediaTypeElm = document.getElementById("media-type");
 const processingElm = document.getElementById("processing");
 const successElm = document.getElementById("success");
@@ -67,6 +84,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(tabs[0].id, { type: "fetchMetaData" }, (payload) => {
     inputTitleElm.value = payload?.title ? payload.title : "";
     inputAuthorsElm.value = payload?.authors ? payload.authors : "";
+    inputPublisherElm.value = payload?.publisher ? payload.publisher : "";
     url = payload.url;
   });
 });
@@ -80,6 +98,7 @@ buttonElm.addEventListener("click", async (evt) => {
     databaseId,
     title: inputTitleElm.value,
     authors: inputAuthorsElm.value,
+    publisher: inputPublisherElm.value,
     mediaType: inputMediaTypeElm.value,
     url,
   });

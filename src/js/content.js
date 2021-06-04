@@ -7,7 +7,12 @@ const getMetaDataFromAmazon = () => {
   const authorsSelector = ".author .a-link-normal";
   const authorsElm = document.querySelector(authorsSelector);
   const authors = authorsElm !== null ? authorsElm.textContent.trim() : "";
-  return { title, authors };
+  const publisherElm = document
+    .querySelector(".book_details-publisher")
+    .parentNode.parentNode.querySelector(".rpi-attribute-value span");
+  const publisher =
+    publisherElm !== null ? publisherElm.textContent.trim() : "";
+  return { title, authors, publisher };
 };
 
 const isBooklog = /^booklog\.jp$/.test(location.hostname);
@@ -19,14 +24,18 @@ const getMetaDataFromBooklog = () => {
   const authorsSelector = '[itemprop="author"]';
   const authorsElm = document.querySelector(authorsSelector);
   const authors = authorsElm !== null ? authorsElm.textContent.trim() : "";
-  return { title, authors };
+  const publisherSelector = '[itemprop="publisher"]';
+  const publisherElm = document.querySelector(publisherSelector);
+  const publisher =
+    publisherElm !== null ? publisherElm.textContent.trim() : "";
+  return { title, authors, publisher };
 };
 
 chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
   if (type !== "fetchMetaData") {
     return;
   }
-  let metaData = { title: "", authors: "" };
+  let metaData = { title: "", authors: "", publisher: "" };
   if (isAmazon) {
     metaData = getMetaDataFromAmazon();
   } else if (isBooklog) {
