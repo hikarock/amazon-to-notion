@@ -93,6 +93,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     inputPublisherElm.value = payload?.publisher ? payload.publisher : "";
     url = payload?.url ? payload.url : "";
     inputUrlElm.value = url;
+    inputMediaTypeElm.value = payload?.mediaType ? payload.mediaType : "";
     cover = payload?.cover ? payload.cover : "";
     coverElm.setAttribute("src", cover);
   });

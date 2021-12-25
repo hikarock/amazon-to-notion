@@ -97,7 +97,11 @@ const getMetaDataFromBooklog = () => {
   const coverSelector = '[itemprop="thumbnailUrl"]';
   const coverElm = document.querySelector(coverSelector);
   const cover = coverElm !== null ? coverElm.getAttribute("src") : "";
-  const mediaType = "Book";
+  const asinRegex = /\/item\/1\/(.+)/;
+  const asin = location.href.match(asinRegex)[1]
+    ? location.href.match(asinRegex)[1]
+    : "";
+  const mediaType = /^B/.test(asin) ? "Kindle" : "Book";
   return { title, authors, publisher, mediaType, cover };
 };
 
@@ -119,6 +123,5 @@ chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
     metaData = getMetaDataFromBooklog();
   }
   metaData.url = location.href;
-  console.log(metaData);
   sendResponse(metaData);
 });
