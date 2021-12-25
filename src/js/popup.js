@@ -1,6 +1,6 @@
 const notionApi = "https://api.notion.com/v1";
 const notionPagesApi = `${notionApi}/pages`;
-const notionVersion = "2021-05-13";
+const notionVersion = "2021-05-11";
 
 let token = "";
 let databaseId = "";
@@ -19,9 +19,11 @@ const buildPayload = ({
   publisher,
   mediaType,
   url,
+  cover,
 }) => {
   return JSON.stringify({
     parent: { database_id: databaseId },
+    cover: { external: { url: cover } },
     properties: {
       Name: {
         title: [
@@ -71,6 +73,7 @@ const buildHeaders = ({ token, notionVersion }) => {
 };
 
 const buttonElm = document.getElementById("button");
+const coverElm = document.getElementById("cover");
 const inputTitleElm = document.getElementById("title");
 const inputAuthorsElm = document.getElementById("authors");
 const inputPublisherElm = document.getElementById("publisher");
@@ -78,14 +81,16 @@ const inputMediaTypeElm = document.getElementById("media-type");
 const processingElm = document.getElementById("processing");
 const successElm = document.getElementById("success");
 const errorElm = document.getElementById("error");
-let url;
+let url, cover;
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(tabs[0].id, { type: "fetchMetaData" }, (payload) => {
     inputTitleElm.value = payload?.title ? payload.title : "";
     inputAuthorsElm.value = payload?.authors ? payload.authors : "";
     inputPublisherElm.value = payload?.publisher ? payload.publisher : "";
-    url = payload.url;
+    url = payload?.url ? payload.url : "";
+    cover = payload?.cover ? payload.cover : "";
+    coverElm.setAttribute("src", cover);
   });
 });
 
@@ -101,6 +106,7 @@ buttonElm.addEventListener("click", async (evt) => {
     publisher: inputPublisherElm.value,
     mediaType: inputMediaTypeElm.value,
     url,
+    cover,
   });
   const res = await fetch(notionPagesApi, {
     method: "POST",
