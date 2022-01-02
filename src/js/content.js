@@ -51,6 +51,24 @@ const getPublisherFromAmazon = () => {
   return publisher;
 };
 
+const getPublicationDateFromAmazon = () => {
+  const selector1 = ".book_details-publication_date";
+  const selector2 = ".rpi-attribute-value span";
+  let elm;
+  if (
+    document.querySelector(selector1) !== null &&
+    document.querySelector(selector2)
+  ) {
+    elm = document
+      .querySelector(selector1)
+      .parentNode.parentNode.querySelector(selector2);
+  }
+  const publicationDate = elm
+    ? elm.textContent.trim().replaceAll("/", "-")
+    : "";
+  return publicationDate;
+};
+
 const getMediaTypeFromAmazon = () => {
   const asin = location.href.match(/dp\/(.+)\//)
     ? location.href.match(/dp\/(.+)\//)[1]
@@ -75,10 +93,11 @@ const getMetaDataFromAmazon = () => {
   const title = getTitleFromAmazon();
   const authors = getAuthorsFromAmazon();
   const publisher = getPublisherFromAmazon();
+  const publicationDate = getPublicationDateFromAmazon();
   const mediaType = getMediaTypeFromAmazon();
   const cover = getCoverFromAmazon();
 
-  return { title, authors, publisher, mediaType, cover };
+  return { title, authors, publisher, publicationDate, mediaType, cover };
 };
 
 const isBooklog = /^booklog\.jp$/.test(location.hostname);
@@ -94,6 +113,12 @@ const getMetaDataFromBooklog = () => {
   const publisherElm = document.querySelector(publisherSelector);
   const publisher =
     publisherElm !== null ? publisherElm.textContent.trim() : "";
+  const publicationDateSelector = '[itemprop="datePublished"]';
+  const publicationDateElm = document.querySelector(publicationDateSelector);
+  const publicationDate =
+    publicationDateElm !== null
+      ? publicationDateElm.getAttribute("content")
+      : "";
   const coverSelector = '[itemprop="thumbnailUrl"]';
   const coverElm = document.querySelector(coverSelector);
   const cover = coverElm !== null ? coverElm.getAttribute("src") : "";
@@ -102,7 +127,7 @@ const getMetaDataFromBooklog = () => {
     ? location.href.match(asinRegex)[1]
     : "";
   const mediaType = /^B/.test(asin) ? "Kindle" : "Book";
-  return { title, authors, publisher, mediaType, cover };
+  return { title, authors, publisher, publicationDate, mediaType, cover };
 };
 
 chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
@@ -113,6 +138,7 @@ chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
     title: "",
     authors: "",
     publisher: "",
+    publicationDate: "",
     mediaType: "Book",
     url: "",
     cover: "",

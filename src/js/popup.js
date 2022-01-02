@@ -17,11 +17,12 @@ const buildPayload = ({
   title,
   authors,
   publisher,
+  publicationDate,
   mediaType,
   url,
   cover,
 }) => {
-  return JSON.stringify({
+  const payload = JSON.stringify({
     parent: { database_id: databaseId },
     cover: { external: { url: cover } },
     properties: {
@@ -52,6 +53,11 @@ const buildPayload = ({
           },
         ],
       },
+      "Publication Date": {
+        date: {
+          start: publicationDate,
+        },
+      },
       "Media Type": {
         multi_select: [
           {
@@ -64,6 +70,7 @@ const buildPayload = ({
       },
     },
   });
+  return payload;
 };
 
 const buildHeaders = ({ token, notionVersion }) => {
@@ -79,6 +86,7 @@ const coverElm = document.getElementById("cover");
 const inputTitleElm = document.getElementById("title");
 const inputAuthorsElm = document.getElementById("authors");
 const inputPublisherElm = document.getElementById("publisher");
+const inputPublicationDateElm = document.getElementById("publication-date");
 const inputMediaTypeElm = document.getElementById("media-type");
 const inputUrlElm = document.getElementById("url");
 const processingElm = document.getElementById("processing");
@@ -91,6 +99,9 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     inputTitleElm.value = payload?.title ? payload.title : "";
     inputAuthorsElm.value = payload?.authors ? payload.authors : "";
     inputPublisherElm.value = payload?.publisher ? payload.publisher : "";
+    inputPublicationDateElm.value = payload?.publicationDate
+      ? payload.publicationDate
+      : "";
     url = payload?.url ? payload.url : "";
     inputUrlElm.value = url;
     inputMediaTypeElm.value = payload?.mediaType ? payload.mediaType : "";
@@ -109,6 +120,7 @@ buttonElm.addEventListener("click", async (evt) => {
     title: inputTitleElm.value,
     authors: inputAuthorsElm.value,
     publisher: inputPublisherElm.value,
+    publicationDate: inputPublicationDateElm.value,
     mediaType: inputMediaTypeElm.value,
     url,
     cover,
