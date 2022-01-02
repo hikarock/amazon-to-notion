@@ -89,6 +89,8 @@ const inputPublisherElm = document.getElementById("publisher");
 const inputPublicationDateElm = document.getElementById("publication-date");
 const inputMediaTypeElm = document.getElementById("media-type");
 const inputUrlElm = document.getElementById("url");
+const formElm = document.getElementById("form");
+const notAvailableElm = document.getElementById("not-available");
 const processingElm = document.getElementById("processing");
 const successElm = document.getElementById("success");
 const errorElm = document.getElementById("error");
@@ -96,6 +98,11 @@ let url, cover;
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(tabs[0].id, { type: "fetchMetaData" }, (payload) => {
+    if (!payload || payload.title === "") {
+      notAvailableElm.style.display = "block";
+      return;
+    }
+    formElm.style.display = "grid";
     inputTitleElm.value = payload?.title ? payload.title : "";
     inputAuthorsElm.value = payload?.authors ? payload.authors : "";
     inputPublisherElm.value = payload?.publisher ? payload.publisher : "";

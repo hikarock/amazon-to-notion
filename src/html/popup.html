@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="../css/popup.css" />
   </head>
   <body>
-    <div class="image-wrapper">
-      <img id="cover" class="image" src="" />
-    </div>
-    <form class="form">
+    <form id="form" class="form">
+      <div class="image-wrapper">
+        <img id="cover" class="image" src="" />
+      </div>
       <textarea
         id="title"
         class="textarea"
@@ -36,10 +36,11 @@
         <option value="Kindle">Kindle</option>
       </select>
       <input type="submit" id="button" class="button" value="Add to Notion" />
-      <div id="processing" class="alert processing">Processing...</div>
-      <div id="success" class="alert success">Success!</div>
-      <div id="error" class="alert error">Error.</div>
     </form>
+    <div id="not-available" class="alert not-available">Not available.</div>
+    <div id="processing" class="alert processing">Processing...</div>
+    <div id="success" class="alert success">Success!</div>
+    <div id="error" class="alert error">Error.</div>
     <script src="../js/popup.js"></script>
   </body>
 </html>

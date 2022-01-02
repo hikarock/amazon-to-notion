@@ -14,7 +14,6 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 0.5rem;
 }
 .image {
   border: 1px solid #9c9c9c;
@@ -22,7 +21,7 @@ textarea {
 }
 .form {
   width: 20rem;
-  display: grid;
+  display: none;
   row-gap: 0.5rem;
 }
 .input,
@@ -55,6 +54,9 @@ textarea {
   display: none;
   text-align: center;
   padding: 0.5rem;
+}
+.alert.not-available {
+  color: var(--default-color);
 }
 .alert.processing {
   color: var(--default-color);

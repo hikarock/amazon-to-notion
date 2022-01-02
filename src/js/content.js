@@ -1,5 +1,3 @@
-const isAmazon = /^www.amazon\.(com|co\.jp)$/.test(location.hostname);
-
 class Amazon {
   getTitle() {
     const selector1 = "#productTitle";
@@ -171,8 +169,14 @@ class Booklog {
   }
 }
 
+const isAmazon = /^www.amazon\.(com|co\.jp)$/.test(location.hostname);
+const isBooklog = /^booklog\.jp$/.test(location.hostname);
+
 chrome.runtime.onMessage.addListener(({ type }, _, sendResponse) => {
   if (type !== "fetchMetaData") {
+    return;
+  }
+  if (!isAmazon && !isBooklog) {
     return;
   }
   const provider = isAmazon ? new Amazon() : new Booklog();
