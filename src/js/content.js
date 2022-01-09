@@ -35,16 +35,25 @@ class Amazon {
   }
 
   getPublisher() {
-    const selector1 = ".book_details-publisher";
-    const selector2 = ".rpi-attribute-value span";
+    const selectorIcon1 = ".book_details-publisher";
+    const selectorValue1 = ".rpi-attribute-value span";
+    const selectorIcon2 = ".audiobook_details-publisher";
+    const selectorValue2 = ".rpi-attribute-value span";
     let elm;
     if (
-      document.querySelector(selector1) !== null &&
-      document.querySelector(selector2)
+      document.querySelector(selectorIcon1) !== null &&
+      document.querySelector(selectorValue1)
     ) {
       elm = document
-        .querySelector(selector1)
-        .parentNode.parentNode.querySelector(selector2);
+        .querySelector(selectorIcon1)
+        .parentNode.parentNode.querySelector(selectorValue1);
+    } else if (
+      document.querySelector(selectorIcon2) !== null &&
+      document.querySelector(selectorValue2)
+    ) {
+      elm = document
+        .querySelector(selectorIcon2)
+        .parentNode.parentNode.querySelector(selectorValue2);
     }
     const publisher = elm ? elm.textContent.trim() : "";
     return publisher;
@@ -57,16 +66,25 @@ class Amazon {
       const dd = `00${date.getDate()}`.slice(-2);
       return `${yyyy}-${mm}-${dd}`;
     };
-    const selector1 = ".book_details-publication_date";
-    const selector2 = ".rpi-attribute-value span";
+    const selectorIcon1 = ".book_details-publication_date";
+    const selectorValue1 = ".rpi-attribute-value span";
+    const selectorIcon2 = ".audiobook_details-release-date";
+    const selectorValue2 = ".rpi-attribute-value span";
     let elm;
     if (
-      document.querySelector(selector1) !== null &&
-      document.querySelector(selector2)
+      document.querySelector(selectorIcon1) !== null &&
+      document.querySelector(selectorValue1)
     ) {
       elm = document
-        .querySelector(selector1)
-        .parentNode.parentNode.querySelector(selector2);
+        .querySelector(selectorIcon1)
+        .parentNode.parentNode.querySelector(selectorValue1);
+    } else if (
+      document.querySelector(selectorIcon2) !== null &&
+      document.querySelector(selectorValue2)
+    ) {
+      elm = document
+        .querySelector(selectorIcon2)
+        .parentNode.parentNode.querySelector(selectorValue2);
     }
     const publicationDate = elm ? elm.textContent.trim().concat() : "";
     const [year, month, day] = publicationDate.split("/");
@@ -78,17 +96,26 @@ class Amazon {
     const asin = location.href.match(/dp\/(.+)\//)
       ? location.href.match(/dp\/(.+)\//)[1]
       : "";
-    return /^B/.test(asin) ? "Kindle" : "Book";
+    if (!/^B/.test(asin)) {
+      return "Book";
+    }
+    const isAudible = document
+      .querySelector("#dp")
+      .classList.contains(".audible");
+    return isAudible ? "Audible" : "Kindle";
   }
 
   getCover() {
     const selector1 = "#img-wrapper .frontImage";
     const selector2 = "#ebooks-img-wrapper .frontImage";
+    const selector3 = "#main-image";
     let elm;
     if (document.querySelector(selector1) !== null) {
       elm = document.querySelector(selector1);
     } else if (document.querySelector(selector2) !== null) {
       elm = document.querySelector(selector2);
+    } else if (document.querySelector(selector3) !== null) {
+      elm = document.querySelector(selector3);
     }
     const cover = elm ? elm.getAttribute("src") : "";
     return cover;
