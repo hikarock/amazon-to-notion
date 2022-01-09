@@ -40,20 +40,10 @@ class Amazon {
     const selectorIcon2 = '.audiobook_details-publisher'
     const selectorValue2 = '.rpi-attribute-value span'
     let elm
-    if (
-      document.querySelector(selectorIcon1) !== null &&
-      document.querySelector(selectorValue1)
-    ) {
-      elm = document
-        .querySelector(selectorIcon1)
-        .parentNode.parentNode.querySelector(selectorValue1)
-    } else if (
-      document.querySelector(selectorIcon2) !== null &&
-      document.querySelector(selectorValue2)
-    ) {
-      elm = document
-        .querySelector(selectorIcon2)
-        .parentNode.parentNode.querySelector(selectorValue2)
+    if (document.querySelector(selectorIcon1) !== null && document.querySelector(selectorValue1)) {
+      elm = document.querySelector(selectorIcon1).parentNode.parentNode.querySelector(selectorValue1)
+    } else if (document.querySelector(selectorIcon2) !== null && document.querySelector(selectorValue2)) {
+      elm = document.querySelector(selectorIcon2).parentNode.parentNode.querySelector(selectorValue2)
     }
     const publisher = elm ? elm.textContent.trim() : ''
     return publisher
@@ -71,20 +61,10 @@ class Amazon {
     const selectorIcon2 = '.audiobook_details-release-date'
     const selectorValue2 = '.rpi-attribute-value span'
     let elm
-    if (
-      document.querySelector(selectorIcon1) !== null &&
-      document.querySelector(selectorValue1)
-    ) {
-      elm = document
-        .querySelector(selectorIcon1)
-        .parentNode.parentNode.querySelector(selectorValue1)
-    } else if (
-      document.querySelector(selectorIcon2) !== null &&
-      document.querySelector(selectorValue2)
-    ) {
-      elm = document
-        .querySelector(selectorIcon2)
-        .parentNode.parentNode.querySelector(selectorValue2)
+    if (document.querySelector(selectorIcon1) !== null && document.querySelector(selectorValue1)) {
+      elm = document.querySelector(selectorIcon1).parentNode.parentNode.querySelector(selectorValue1)
+    } else if (document.querySelector(selectorIcon2) !== null && document.querySelector(selectorValue2)) {
+      elm = document.querySelector(selectorIcon2).parentNode.parentNode.querySelector(selectorValue2)
     }
     const publicationDate = elm ? elm.textContent.trim().concat() : ''
     const [year, month, day] = publicationDate.split('/')
@@ -96,15 +76,9 @@ class Amazon {
     const dp = document.querySelector('#dp')
     if (dp.classList.contains('book') || dp.classList.contains('book_mobile')) {
       return 'Book'
-    } else if (
-      dp.classList.contains('ebooks') ||
-      dp.classList.contains('ebooks_mobile')
-    ) {
+    } else if (dp.classList.contains('ebooks') || dp.classList.contains('ebooks_mobile')) {
       return 'Kindle'
-    } else if (
-      dp.classList.contains('audible') ||
-      dp.classList.contains('audible_mobile')
-    ) {
+    } else if (dp.classList.contains('audible') || dp.classList.contains('audible_mobile')) {
       return 'Audible'
     }
     return ''
@@ -157,26 +131,20 @@ class Booklog {
   getPublisher() {
     const publisherSelector = '[itemprop="publisher"]'
     const publisherElm = document.querySelector(publisherSelector)
-    const publisher =
-      publisherElm !== null ? publisherElm.textContent.trim() : ''
+    const publisher = publisherElm !== null ? publisherElm.textContent.trim() : ''
     return publisher
   }
 
   getPublicationDate() {
     const publicationDateSelector = '[itemprop="datePublished"]'
     const publicationDateElm = document.querySelector(publicationDateSelector)
-    const publicationDate =
-      publicationDateElm !== null
-        ? publicationDateElm.getAttribute('content')
-        : ''
+    const publicationDate = publicationDateElm !== null ? publicationDateElm.getAttribute('content') : ''
     return publicationDate
   }
 
   getMediaType() {
     const asinRegex = /\/item\/1\/(.+)/
-    const asin = location.href.match(asinRegex)[1]
-      ? location.href.match(asinRegex)[1]
-      : ''
+    const asin = location.href.match(asinRegex)[1] ? location.href.match(asinRegex)[1] : ''
     const mediaType = /^B/.test(asin) ? 'Kindle' : 'Book'
     return mediaType
   }

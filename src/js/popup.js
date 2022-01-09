@@ -4,24 +4,12 @@ const notionVersion = '2021-05-11'
 
 let token = ''
 let databaseId = ''
-chrome.storage.sync.get(
-  ['token', 'databaseId'],
-  ({ token: _token, databaseId: _databaseId }) => {
-    token = _token
-    databaseId = _databaseId
-  }
-)
+chrome.storage.sync.get(['token', 'databaseId'], ({ token: _token, databaseId: _databaseId }) => {
+  token = _token
+  databaseId = _databaseId
+})
 
-const buildPayload = ({
-  databaseId,
-  title,
-  authors,
-  publisher,
-  publicationDate,
-  mediaType,
-  url,
-  cover,
-}) => {
+const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, mediaType, url, cover }) => {
   const payload = JSON.stringify({
     parent: { database_id: databaseId },
     cover: { external: { url: cover } },
@@ -106,9 +94,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     inputTitleElm.value = payload?.title ? payload.title : ''
     inputAuthorsElm.value = payload?.authors ? payload.authors : ''
     inputPublisherElm.value = payload?.publisher ? payload.publisher : ''
-    inputPublicationDateElm.value = payload?.publicationDate
-      ? payload.publicationDate
-      : ''
+    inputPublicationDateElm.value = payload?.publicationDate ? payload.publicationDate : ''
     url = payload?.url ? payload.url : ''
     inputUrlElm.value = url
     inputMediaTypeElm.value = payload?.mediaType ? payload.mediaType : ''
