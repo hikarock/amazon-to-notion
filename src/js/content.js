@@ -93,16 +93,21 @@ class Amazon {
   }
 
   getMediaType() {
-    const asin = location.href.match(/dp\/(.+)\//)
-      ? location.href.match(/dp\/(.+)\//)[1]
-      : "";
-    if (!/^B/.test(asin)) {
+    const dp = document.querySelector("#dp");
+    if (dp.classList.contains("book") || dp.classList.contains("book_mobile")) {
       return "Book";
+    } else if (
+      dp.classList.contains("ebooks") ||
+      dp.classList.contains("ebooks_mobile")
+    ) {
+      return "Kindle";
+    } else if (
+      dp.classList.contains("audible") ||
+      dp.classList.contains("audible_mobile")
+    ) {
+      return "Audible";
     }
-    const isAudible = document
-      .querySelector("#dp")
-      .classList.contains("audible");
-    return isAudible ? "Audible" : "Kindle";
+    return "";
   }
 
   getCover() {
