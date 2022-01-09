@@ -3,9 +3,7 @@
   "description": "Amazon.co.jp の書誌情報を Notion の DB に登録する Chrome 拡張機能です。",
   "version": "0.1.0",
   "manifest_version": 3,
-  "host_permissions": [
-    "https://api.notion.com/"
-  ],
+  "host_permissions": ["https://api.notion.com/"],
   "action": {
     "default_popup": "src/html/popup.html",
     "default_icon": {
@@ -27,9 +25,7 @@
     }
   ],
   "options_page": "src/html/options.html",
-  "permissions": [
-    "storage"
-  ],
+  "permissions": ["storage"],
   "icons": {
     "16": "src/images/icon-16.png",
     "32": "src/images/icon-32.png",
