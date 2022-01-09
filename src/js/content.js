@@ -101,7 +101,7 @@ class Amazon {
     }
     const isAudible = document
       .querySelector("#dp")
-      .classList.contains(".audible");
+      .classList.contains("audible");
     return isAudible ? "Audible" : "Kindle";
   }
 
