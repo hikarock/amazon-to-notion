@@ -22,32 +22,27 @@ class Amazon {
   }
 
   getTitle() {
-    const selector1 = '#productTitle'
-    const selector2 = '#ebooksTitle'
-    const selector3 = '#title'
-    const elm = this.findElm([selector1, selector2, selector3])
+    const elm = this.findElm(['#productTitle', '#ebooksTitle', '#title'])
     const title = elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
     return title
   }
 
   getAuthors() {
-    const selector1 = '#contributorLink'
-    const selector2 = '#bylineContributor'
-    const selector3 = '.contributorNameID'
-    const selector4 = '.author .a-link-normal'
-    const elm = this.findElm([selector1, selector2, selector3, selector4])
+    const elm = this.findElm(['#contributorLink', '#bylineContributor', '.contributorNameID', '.author .a-link-normal'])
     const authors = elm ? elm.textContent.trim().replace(/　/g, ' ') : ''
     return authors
   }
 
   getPublisher() {
-    const selectorIcon1 = '.book_details-publisher'
-    const selectorValue1 = '.rpi-attribute-value span'
-    const selectorIcon2 = '.audiobook_details-publisher'
-    const selectorValue2 = '.rpi-attribute-value span'
     const elm = this.findCarouselElm([
-      { icon: selectorIcon1, value: selectorValue1 },
-      { icon: selectorIcon2, value: selectorValue2 },
+      {
+        icon: '.book_details-publisher',
+        value: '.rpi-attribute-value span',
+      },
+      {
+        icon: '.audiobook_details-publisher',
+        value: '.rpi-attribute-value span',
+      },
     ])
     const publisher = elm ? elm.textContent.trim() : ''
     return publisher
@@ -60,13 +55,15 @@ class Amazon {
       const dd = `00${date.getDate()}`.slice(-2)
       return `${yyyy}-${mm}-${dd}`
     }
-    const selectorIcon1 = '.book_details-publication_date'
-    const selectorValue1 = '.rpi-attribute-value span'
-    const selectorIcon2 = '.audiobook_details-release-date'
-    const selectorValue2 = '.rpi-attribute-value span'
     const elm = this.findCarouselElm([
-      { icon: selectorIcon1, value: selectorValue1 },
-      { icon: selectorIcon2, value: selectorValue2 },
+      {
+        icon: '.book_details-publication_date',
+        value: '.rpi-attribute-value span',
+      },
+      {
+        icon: '.audiobook_details-release-date',
+        value: '.rpi-attribute-value span',
+      },
     ])
     const publicationDate = elm ? elm.textContent.trim().concat() : ''
     const [year, month, day] = publicationDate.split('/')
@@ -87,10 +84,7 @@ class Amazon {
   }
 
   getCover() {
-    const selector1 = '#img-wrapper .frontImage'
-    const selector2 = '#ebooks-img-wrapper .frontImage'
-    const selector3 = '#main-image'
-    const elm = this.findElm([selector1, selector2, selector3])
+    const elm = this.findElm(['#img-wrapper .frontImage', '#ebooks-img-wrapper .frontImage', '#main-image'])
     const cover = elm ? elm.getAttribute('src') : ''
     return cover
   }
