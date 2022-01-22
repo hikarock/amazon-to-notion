@@ -1,21 +1,23 @@
 class Amazon {
   findElm(selectors = []) {
     let elm = null
-    selectors.forEach((selector) => {
+    for (const selector of selectors) {
       if (document.querySelector(selector) !== null) {
         elm = document.querySelector(selector)
+        break
       }
-    })
+    }
     return elm
   }
 
   findCarouselElm(selectors) {
     let elm = null
-    selectors.forEach((selector) => {
+    for (const selector of selectors) {
       if (document.querySelector(selector.icon) !== null && document.querySelector(selector.value) !== null) {
         elm = document.querySelector(selector.icon).parentNode.parentNode.querySelector(selector.value)
+        break
       }
-    })
+    }
     return elm
   }
 
