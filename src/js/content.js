@@ -1,35 +1,39 @@
 class Amazon {
+  findElm(selectors = []) {
+    let elm = null
+    selectors.forEach((selector) => {
+      if (document.querySelector(selector) !== null) {
+        elm = document.querySelector(selector)
+      }
+    })
+    return elm
+  }
+
+  findCarouselElm(selectors) {
+    let elm = null
+    selectors.forEach((selector) => {
+      if (document.querySelector(selector.icon) !== null && document.querySelector(selector.value) !== null) {
+        elm = document.querySelector(selector.icon).parentNode.parentNode.querySelector(selector.value)
+      }
+    })
+    return elm
+  }
+
   getTitle() {
     const selector1 = '#productTitle'
     const selector2 = '#ebooksTitle'
     const selector3 = '#title'
-    let elm
-    if (document.querySelector(selector1) !== null) {
-      elm = document.querySelector(selector1)
-    } else if (document.querySelector(selector2) !== null) {
-      elm = document.querySelector(selector2)
-    } else if (document.querySelector(selector3) !== null) {
-      elm = document.querySelector(selector3)
-    }
+    const elm = this.findElm([selector1, selector2, selector3])
     const title = elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
     return title
   }
 
   getAuthors() {
-    const selector1 = '#contributorLink' // PC
-    const selector2 = '#bylineContributor' // Mobile
-    const selector3 = '.contributorNameID' // Tablet1
-    const selector4 = '.author .a-link-normal' // Tablet2
-    let elm
-    if (document.querySelector(selector1) !== null) {
-      elm = document.querySelector(selector1)
-    } else if (document.querySelector(selector2) !== null) {
-      elm = document.querySelector(selector2)
-    } else if (document.querySelector(selector3) !== null) {
-      elm = document.querySelector(selector3)
-    } else if (document.querySelector(selector4) !== null) {
-      elm = document.querySelector(selector4)
-    }
+    const selector1 = '#contributorLink'
+    const selector2 = '#bylineContributor'
+    const selector3 = '.contributorNameID'
+    const selector4 = '.author .a-link-normal'
+    const elm = this.findElm([selector1, selector2, selector3, selector4])
     const authors = elm ? elm.textContent.trim().replace(/　/g, ' ') : ''
     return authors
   }
@@ -39,12 +43,10 @@ class Amazon {
     const selectorValue1 = '.rpi-attribute-value span'
     const selectorIcon2 = '.audiobook_details-publisher'
     const selectorValue2 = '.rpi-attribute-value span'
-    let elm
-    if (document.querySelector(selectorIcon1) !== null && document.querySelector(selectorValue1)) {
-      elm = document.querySelector(selectorIcon1).parentNode.parentNode.querySelector(selectorValue1)
-    } else if (document.querySelector(selectorIcon2) !== null && document.querySelector(selectorValue2)) {
-      elm = document.querySelector(selectorIcon2).parentNode.parentNode.querySelector(selectorValue2)
-    }
+    const elm = this.findCarouselElm([
+      { icon: selectorIcon1, value: selectorValue1 },
+      { icon: selectorIcon2, value: selectorValue2 },
+    ])
     const publisher = elm ? elm.textContent.trim() : ''
     return publisher
   }
@@ -60,12 +62,10 @@ class Amazon {
     const selectorValue1 = '.rpi-attribute-value span'
     const selectorIcon2 = '.audiobook_details-release-date'
     const selectorValue2 = '.rpi-attribute-value span'
-    let elm
-    if (document.querySelector(selectorIcon1) !== null && document.querySelector(selectorValue1)) {
-      elm = document.querySelector(selectorIcon1).parentNode.parentNode.querySelector(selectorValue1)
-    } else if (document.querySelector(selectorIcon2) !== null && document.querySelector(selectorValue2)) {
-      elm = document.querySelector(selectorIcon2).parentNode.parentNode.querySelector(selectorValue2)
-    }
+    const elm = this.findCarouselElm([
+      { icon: selectorIcon1, value: selectorValue1 },
+      { icon: selectorIcon2, value: selectorValue2 },
+    ])
     const publicationDate = elm ? elm.textContent.trim().concat() : ''
     const [year, month, day] = publicationDate.split('/')
     const date = new Date(Number(year), Number(month) - 1, Number(day))
@@ -88,14 +88,7 @@ class Amazon {
     const selector1 = '#img-wrapper .frontImage'
     const selector2 = '#ebooks-img-wrapper .frontImage'
     const selector3 = '#main-image'
-    let elm
-    if (document.querySelector(selector1) !== null) {
-      elm = document.querySelector(selector1)
-    } else if (document.querySelector(selector2) !== null) {
-      elm = document.querySelector(selector2)
-    } else if (document.querySelector(selector3) !== null) {
-      elm = document.querySelector(selector3)
-    }
+    const elm = this.findElm([selector1, selector2, selector3])
     const cover = elm ? elm.getAttribute('src') : ''
     return cover
   }
