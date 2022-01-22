@@ -89,6 +89,12 @@ class Amazon {
     return cover
   }
 
+  getUrl() {
+    let elm = this.findElm(['#ASIN', "[name='ASIN.0']"])
+    let asin = elm ? elm.value : ''
+    return `${location.origin}/dp/${asin}`
+  }
+
   getMetaData() {
     return {
       title: this.getTitle(),
@@ -97,7 +103,7 @@ class Amazon {
       publicationDate: this.getPublicationDate(),
       mediaType: this.getMediaType(),
       cover: this.getCover(),
-      url: location.href,
+      url: this.getUrl(),
     }
   }
 }
