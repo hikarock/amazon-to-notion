@@ -90,9 +90,9 @@ class Amazon {
   }
 
   getUrl() {
-    let elm = this.findElm(['#ASIN', "[name='ASIN.0']"])
-    let asin = elm ? elm.value : ''
-    return `${location.origin}/dp/${asin}`
+    let elm = this.findElm(['#ASIN', "[name='ASIN.0']", "[name='items[0.base][asin]']"])
+    let asin = elm ? elm.value : null
+    return asin ? `${location.origin}/dp/${asin}` : location.href
   }
 
   getMetaData() {
