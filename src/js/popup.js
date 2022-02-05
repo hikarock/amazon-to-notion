@@ -87,7 +87,6 @@ const notAvailableElm = document.getElementById('not-available')
 const processingElm = document.getElementById('processing')
 const successElm = document.getElementById('success')
 const errorElm = document.getElementById('error')
-let url, cover
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.tabs.sendMessage(
