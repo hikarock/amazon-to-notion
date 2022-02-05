@@ -9,7 +9,7 @@ chrome.storage.sync.get(['token', 'databaseId'], ({ token: _token, databaseId: _
   databaseId = _databaseId
 })
 
-const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, mediaType, url, cover }) => {
+const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, mediaType, url, cover, pages }) => {
   const payload = JSON.stringify({
     parent: { database_id: databaseId },
     cover: { external: { url: cover } },
@@ -56,8 +56,12 @@ const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, 
       URL: {
         url,
       },
+      Pages: {
+        number: pages,
+      },
     },
   })
+  console.log(payload)
   return payload
 }
 
@@ -77,6 +81,7 @@ const inputPublisherElm = document.getElementById('publisher')
 const inputPublicationDateElm = document.getElementById('publication-date')
 const inputMediaTypeElm = document.getElementById('media-type')
 const inputUrlElm = document.getElementById('url')
+const inputPagesElm = document.getElementById('pages')
 const formElm = document.getElementById('form')
 const notAvailableElm = document.getElementById('not-available')
 const processingElm = document.getElementById('processing')
@@ -85,22 +90,34 @@ const errorElm = document.getElementById('error')
 let url, cover
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.tabs.sendMessage(tabs[0].id, { type: 'fetchMetaData' }, (payload) => {
-    if (!payload || payload.title === '') {
-      notAvailableElm.style.display = 'block'
-      return
+  chrome.tabs.sendMessage(
+    tabs[0].id,
+    { type: 'fetchMetaData' },
+    ({
+      title = '',
+      authors = '',
+      publisher = '',
+      publicationDate = '',
+      url = '',
+      mediaType = '',
+      cover = '',
+      pages = 0,
+    }) => {
+      if (title === '') {
+        notAvailableElm.style.display = 'block'
+        return
+      }
+      formElm.style.display = 'grid'
+      inputTitleElm.value = title
+      inputAuthorsElm.value = authors
+      inputPublisherElm.value = publisher
+      inputPublicationDateElm.value = publicationDate
+      inputUrlElm.value = url
+      inputMediaTypeElm.value = mediaType
+      inputPagesElm.value = pages
+      coverElm.setAttribute('src', cover)
     }
-    formElm.style.display = 'grid'
-    inputTitleElm.value = payload?.title ? payload.title : ''
-    inputAuthorsElm.value = payload?.authors ? payload.authors : ''
-    inputPublisherElm.value = payload?.publisher ? payload.publisher : ''
-    inputPublicationDateElm.value = payload?.publicationDate ? payload.publicationDate : ''
-    url = payload?.url ? payload.url : ''
-    inputUrlElm.value = url
-    inputMediaTypeElm.value = payload?.mediaType ? payload.mediaType : ''
-    cover = payload?.cover ? payload.cover : ''
-    coverElm.setAttribute('src', cover)
-  })
+  )
 })
 
 buttonElm.addEventListener('click', async (evt) => {
@@ -115,8 +132,9 @@ buttonElm.addEventListener('click', async (evt) => {
     publisher: inputPublisherElm.value,
     publicationDate: inputPublicationDateElm.value,
     mediaType: inputMediaTypeElm.value,
-    url,
-    cover,
+    pages: Number.parseInt(inputPagesElm.value),
+    url: inputUrlElm.value,
+    cover: coverElm.getAttribute('src'),
   })
   const res = await fetch(notionPagesApi, {
     method: 'POST',

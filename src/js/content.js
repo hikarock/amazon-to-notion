@@ -95,6 +95,21 @@ class Amazon {
     return asin ? `${location.origin}/dp/${asin}` : location.href
   }
 
+  getPages() {
+    const elm = this.findCarouselElm([
+      {
+        icon: '.book_details-fiona_pages',
+        value: '.rpi-attribute-value span',
+      },
+      {
+        icon: '.book_details-ebook_pages',
+        value: '.rpi-attribute-value span',
+      },
+    ])
+    const pages = elm ? Number.parseInt(elm.textContent.trim().match(/\d+/)[0]) : 0
+    return pages
+  }
+
   getMetaData() {
     return {
       title: this.getTitle(),
@@ -104,6 +119,7 @@ class Amazon {
       mediaType: this.getMediaType(),
       cover: this.getCover(),
       url: this.getUrl(),
+      pages: this.getPages(),
     }
   }
 }
@@ -160,6 +176,7 @@ class Booklog {
       mediaType: this.getMediaType(),
       cover: this.getCover(),
       url: location.href,
+      pages: 0,
     }
   }
 }
