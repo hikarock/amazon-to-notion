@@ -61,7 +61,6 @@ const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, 
       },
     },
   })
-  console.log(payload)
   return payload
 }
 
