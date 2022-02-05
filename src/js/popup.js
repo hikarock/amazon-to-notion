@@ -87,11 +87,13 @@ const processingElm = document.getElementById('processing')
 const successElm = document.getElementById('success')
 const errorElm = document.getElementById('error')
 
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.tabs.sendMessage(
-    tabs[0].id,
-    { type: 'fetchMetaData' },
-    ({
+chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+  chrome.tabs.sendMessage(tab.id, { type: 'fetchMetaData' }, (payload) => {
+    if (!payload) {
+      notAvailableElm.style.display = 'block'
+      return
+    }
+    const {
       title = '',
       authors = '',
       publisher = '',
@@ -100,22 +102,17 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       mediaType = '',
       cover = '',
       pages = 0,
-    }) => {
-      if (title === '') {
-        notAvailableElm.style.display = 'block'
-        return
-      }
-      formElm.style.display = 'grid'
-      inputTitleElm.value = title
-      inputAuthorsElm.value = authors
-      inputPublisherElm.value = publisher
-      inputPublicationDateElm.value = publicationDate
-      inputUrlElm.value = url
-      inputMediaTypeElm.value = mediaType
-      inputPagesElm.value = pages
-      coverElm.setAttribute('src', cover)
-    }
-  )
+    } = payload
+    formElm.style.display = 'grid'
+    inputTitleElm.value = title
+    inputAuthorsElm.value = authors
+    inputPublisherElm.value = publisher
+    inputPublicationDateElm.value = publicationDate
+    inputUrlElm.value = url
+    inputMediaTypeElm.value = mediaType
+    inputPagesElm.value = pages
+    coverElm.setAttribute('src', cover)
+  })
 })
 
 buttonElm.addEventListener('click', async (evt) => {
