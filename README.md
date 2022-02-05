@@ -18,6 +18,7 @@ Chrome 88 以降
    - `Publication Date` (Date)
    - `Media Type` (Multi-select)
    - `URL` (URL)
+   - `Pages` (Number)
 4. 当リポジトリを `git clone` して Chrome で拡張機能をインストールします。[拡張機能のページ](chrome://extensions/) から `パッケージ化されていない拡張機能を読み込む` ボタンでインストールします。
 5. 拡張機能のオプション画面で、上記の手順で作成した Integraton Token と Database ID (上記で作成した Database の URL から Database ID をコピーします) を入力して登録します。
    ![](https://user-images.githubusercontent.com/236607/120336753-9e32b500-c32d-11eb-9885-c900ab9a5c3d.png)
