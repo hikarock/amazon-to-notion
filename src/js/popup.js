@@ -8,12 +8,27 @@ let databaseId1 = ''
 let databaseId2 = ''
 
 chrome.storage.sync.get(
-  ['token1', 'token2', 'databaseId1', 'databaseId2'],
-  ({ token1: _token1, token2: _token2, databaseId1: _databaseId1, databaseId2: _databaseId2 }) => {
+  ['name1', 'name2', 'token1', 'token2', 'databaseId1', 'databaseId2'],
+  ({
+    name1: _name1,
+    name2: _name2,
+    token1: _token1,
+    token2: _token2,
+    databaseId1: _databaseId1,
+    databaseId2: _databaseId2,
+  }) => {
     token1 = _token1
     token2 = _token2
     databaseId1 = _databaseId1
     databaseId2 = _databaseId2
+    let option1 = document.createElement('option')
+    let option2 = document.createElement('option')
+    option1.text = _name1
+    option2.text = _name2
+    option1.value = token1
+    option2.value = token2
+    inputTokenElm.appendChild(option1)
+    inputTokenElm.appendChild(option2)
   }
 )
 
