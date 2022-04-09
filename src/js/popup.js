@@ -2,12 +2,20 @@ const notionApi = 'https://api.notion.com/v1'
 const notionPagesApi = `${notionApi}/pages`
 const notionVersion = '2021-05-11'
 
-let token = ''
-let databaseId = ''
-chrome.storage.sync.get(['token', 'databaseId'], ({ token: _token, databaseId: _databaseId }) => {
-  token = _token
-  databaseId = _databaseId
-})
+let token1 = ''
+let token2 = ''
+let databaseId1 = ''
+let databaseId2 = ''
+
+chrome.storage.sync.get(
+  ['token1', 'token2', 'databaseId1', 'databaseId2'],
+  ({ token1: _token1, token2: _token2, databaseId1: _databaseId1, databaseId2: _databaseId2 }) => {
+    token1 = _token1
+    token2 = _token2
+    databaseId1 = _databaseId1
+    databaseId2 = _databaseId2
+  }
+)
 
 const buildPayload = ({ databaseId, title, authors, publisher, publicationDate, mediaType, url, cover, pages }) => {
   const payload = JSON.stringify({
@@ -81,6 +89,7 @@ const inputPublicationDateElm = document.getElementById('publication-date')
 const inputMediaTypeElm = document.getElementById('media-type')
 const inputUrlElm = document.getElementById('url')
 const inputPagesElm = document.getElementById('pages')
+const inputTokenElm = document.getElementById('token')
 const formElm = document.getElementById('form')
 const notAvailableElm = document.getElementById('not-available')
 const processingElm = document.getElementById('processing')
@@ -119,6 +128,10 @@ buttonElm.addEventListener('click', async (evt) => {
   evt.preventDefault()
   buttonElm.style.display = 'none'
   processingElm.style.display = 'block'
+  let selectedToken = inputTokenElm.value
+  const token = selectedToken === 'token1' ? token1 : token2
+  const databaseId = selectedToken === 'token1' ? databaseId1 : databaseId2
+
   const headers = buildHeaders({ token, notionVersion })
   const payload = buildPayload({
     databaseId,
