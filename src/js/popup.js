@@ -143,9 +143,8 @@ buttonElm.addEventListener('click', async (evt) => {
   evt.preventDefault()
   buttonElm.style.display = 'none'
   processingElm.style.display = 'block'
-  let selectedToken = inputTokenElm.value
-  const token = selectedToken === 'token1' ? token1 : token2
-  const databaseId = selectedToken === 'token1' ? databaseId1 : databaseId2
+  const token = inputTokenElm.value
+  const databaseId = token === token1 ? databaseId1 : databaseId2
 
   const headers = buildHeaders({ token, notionVersion })
   const payload = buildPayload({
