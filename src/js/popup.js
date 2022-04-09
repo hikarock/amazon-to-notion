@@ -23,8 +23,8 @@ chrome.storage.sync.get(
     databaseId2 = _databaseId2
     let option1 = document.createElement('option')
     let option2 = document.createElement('option')
-    option1.text = _name1
-    option2.text = _name2
+    option1.text = _name1 ? _name1 : 'Integration Token 1'
+    option2.text = _name2 ? _name1 : 'Integration Token 2'
     option1.value = token1
     option2.value = token2
     inputTokenElm.appendChild(option1)
