@@ -22,7 +22,7 @@ class Amazon {
   }
 
   getTitle() {
-    const elm = this.findElm(['#productTitle', '#ebooksTitle', '#title'])
+    const elm = this.findElm(['#productTitle', '#ebooksTitle', '#title', '#truncatedTitle .a-truncate-full'])
     const title = elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
     return title
   }
