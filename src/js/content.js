@@ -84,7 +84,7 @@ class Amazon {
   }
 
   getCover() {
-    const elm = this.findElm(['#img-wrapper .frontImage', '#ebooks-img-wrapper .frontImage', '#main-image'])
+    const elm = this.findElm(['#img-wrapper .frontImage', '#ebooks-img-wrapper .frontImage', '#main-image', '#landingImage'])
     const cover = elm ? elm.getAttribute('src') : ''
     return cover
   }
