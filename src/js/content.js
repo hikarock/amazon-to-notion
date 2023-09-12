@@ -23,14 +23,12 @@ class Amazon {
 
   getTitle() {
     const elm = this.findElm(['#productTitle', '#ebooksTitle', '#title', '#truncatedTitle .a-truncate-full'])
-    const title = elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
-    return title
+    return elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
   }
 
   getAuthors() {
     const elm = this.findElm(['#contributorLink', '#bylineContributor', '.contributorNameID', '.author .a-link-normal'])
-    const authors = elm ? elm.textContent.trim().replace(/　/g, ' ') : ''
-    return authors
+    return elm ? elm.textContent.trim().replace(/　/g, ' ') : ''
   }
 
   getPublisher() {
@@ -44,8 +42,7 @@ class Amazon {
         value: '.rpi-attribute-value span',
       },
     ])
-    const publisher = elm ? elm.textContent.trim() : ''
-    return publisher
+    return elm ? elm.textContent.trim() : ''
   }
 
   getPublicationDate() {
@@ -84,9 +81,13 @@ class Amazon {
   }
 
   getCover() {
-    const elm = this.findElm(['#img-wrapper .frontImage', '#ebooks-img-wrapper .frontImage', '#main-image', '#landingImage'])
-    const cover = elm ? elm.getAttribute('src') : ''
-    return cover
+    const elm = this.findElm([
+      '#img-wrapper .frontImage',
+      '#ebooks-img-wrapper .frontImage',
+      '#main-image',
+      '#landingImage',
+    ])
+    return elm ? elm.getAttribute('src') : ''
   }
 
   getUrl() {
@@ -106,8 +107,7 @@ class Amazon {
         value: '.rpi-attribute-value span',
       },
     ])
-    const pages = elm ? Number.parseInt(elm.textContent.trim().match(/\d+/)[0]) : 0
-    return pages
+    return elm ? Number.parseInt(elm.textContent.trim().match(/\d+/)[0]) : 0
   }
 
   getMetaData() {
@@ -128,43 +128,37 @@ class Booklog {
   getTitle() {
     const titleSelector = '[itemprop="name"]'
     const titleElm = document.querySelector(titleSelector)
-    const title = titleElm !== null ? titleElm.textContent.trim() : ''
-    return title
+    return titleElm !== null ? titleElm.textContent.trim() : ''
   }
 
   getAuthors() {
     const authorsSelector = '[itemprop="author"]'
     const authorsElm = document.querySelector(authorsSelector)
-    const authors = authorsElm !== null ? authorsElm.textContent.trim() : ''
-    return authors
+    return authorsElm !== null ? authorsElm.textContent.trim() : ''
   }
 
   getPublisher() {
     const publisherSelector = '[itemprop="publisher"]'
     const publisherElm = document.querySelector(publisherSelector)
-    const publisher = publisherElm !== null ? publisherElm.textContent.trim() : ''
-    return publisher
+    return publisherElm !== null ? publisherElm.textContent.trim() : ''
   }
 
   getPublicationDate() {
     const publicationDateSelector = '[itemprop="datePublished"]'
     const publicationDateElm = document.querySelector(publicationDateSelector)
-    const publicationDate = publicationDateElm !== null ? publicationDateElm.getAttribute('content') : ''
-    return publicationDate
+    return publicationDateElm !== null ? publicationDateElm.getAttribute('content') : ''
   }
 
   getMediaType() {
     const asinRegex = /\/item\/1\/(.+)/
     const asin = location.href.match(asinRegex)[1] ? location.href.match(asinRegex)[1] : ''
-    const mediaType = /^B/.test(asin) ? 'Kindle' : 'Book'
-    return mediaType
+    return /^B/.test(asin) ? 'Kindle' : 'Book'
   }
 
   getCover() {
     const coverSelector = '[itemprop="thumbnailUrl"]'
     const coverElm = document.querySelector(coverSelector)
-    const cover = coverElm !== null ? coverElm.getAttribute('src') : ''
-    return cover
+    return coverElm !== null ? coverElm.getAttribute('src') : ''
   }
 
   getMetaData() {
