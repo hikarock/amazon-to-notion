@@ -10,17 +10,6 @@ class Amazon {
     return elm
   }
 
-  findCarouselElm(selectors) {
-    let elm = null
-    for (const selector of selectors) {
-      if (document.querySelector(selector.icon) !== null && document.querySelector(selector.value) !== null) {
-        elm = document.querySelector(selector.icon).parentNode.parentNode.querySelector(selector.value)
-        break
-      }
-    }
-    return elm
-  }
-
   getTitle() {
     const elm = this.findElm(['#productTitle', '#ebooksTitle', '#title', '#truncatedTitle .a-truncate-full'])
     return elm ? elm.textContent.trim().replace(/\n|\r/g, '') : ''
@@ -32,15 +21,9 @@ class Amazon {
   }
 
   getPublisher() {
-    const elm = this.findCarouselElm([
-      {
-        icon: '.book_details-publisher',
-        value: '.rpi-attribute-value span',
-      },
-      {
-        icon: '.audiobook_details-publisher',
-        value: '.rpi-attribute-value span',
-      },
+    const elm = this.findElm([
+      '#rpi-attribute-book_details-publisher .rpi-attribute-value span',
+      '#rpi-attribute-audiobook_details-publisher .rpi-attribute-value span',
     ])
     return elm ? elm.textContent.trim() : ''
   }
@@ -52,20 +35,16 @@ class Amazon {
       const dd = `00${date.getDate()}`.slice(-2)
       return `${yyyy}-${mm}-${dd}`
     }
-    const elm = this.findCarouselElm([
-      {
-        icon: '.book_details-publication_date',
-        value: '.rpi-attribute-value span',
-      },
-      {
-        icon: '.audiobook_details-release-date',
-        value: '.rpi-attribute-value span',
-      },
+    const yearElm = this.findElm([
+      '#rpi-attribute-book_details-publication_date .rpi-attribute-value p:first-child',
+      '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value p:first-child',
     ])
-    const publicationDate = elm ? elm.textContent.trim().concat() : ''
-    const [year, month, day] = publicationDate.split('/')
-    const date = new Date(Number(year), Number(month) - 1, Number(day))
-    return formatDate(date)
+    const dateElm = this.findElm([
+      '#rpi-attribute-book_details-publication_date .rpi-attribute-value p:nth-child(2)',
+      '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value p:nth-child(2)',
+    ])
+    const dateText = `${yearElm.textContent}${dateElm.textContent}`.replace(/[\s日]/g, '').replace(/[年月]/g, '-')
+    return formatDate(new Date(dateText))
   }
 
   getMediaType() {
@@ -97,15 +76,9 @@ class Amazon {
   }
 
   getPages() {
-    const elm = this.findCarouselElm([
-      {
-        icon: '.book_details-fiona_pages',
-        value: '.rpi-attribute-value span',
-      },
-      {
-        icon: '.book_details-ebook_pages',
-        value: '.rpi-attribute-value span',
-      },
+    const elm = this.findElm([
+      '#rpi-attribute-book_details-fiona_pages .rpi-attribute-value span',
+      '#rpi-attribute-book_details-ebook_pages .rpi-attribute-value span',
     ])
     return elm ? Number.parseInt(elm.textContent.trim().match(/\d+/)[0]) : 0
   }
