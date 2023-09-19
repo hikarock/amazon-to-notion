@@ -36,6 +36,8 @@ class Amazon {
       return `${yyyy}-${mm}-${dd}`
     }
     const yearElm = this.findElm([
+      '#rpi-attribute-book_details-publication_date .rpi-attribute-value span',
+      '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value span',
       '#rpi-attribute-book_details-publication_date .rpi-attribute-value p:first-child',
       '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value p:first-child',
     ])
@@ -43,7 +45,9 @@ class Amazon {
       '#rpi-attribute-book_details-publication_date .rpi-attribute-value p:nth-child(2)',
       '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value p:nth-child(2)',
     ])
-    const dateText = `${yearElm.textContent}${dateElm.textContent}`.replace(/[\s日]/g, '').replace(/[年月]/g, '-')
+    const dateText = dateElm
+      ? `${yearElm.textContent}${dateElm.textContent}`.replace(/[\s日]/g, '').replace(/[年月]/g, '-')
+      : yearElm.textContent.trim()
     return formatDate(new Date(dateText))
   }
 
