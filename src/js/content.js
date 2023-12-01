@@ -45,10 +45,14 @@ class Amazon {
       '#rpi-attribute-book_details-publication_date .rpi-attribute-value p:nth-child(2)',
       '#rpi-attribute-audiobook_details-release-date .rpi-attribute-value p:nth-child(2)',
     ])
-    const dateText = dateElm
-      ? `${yearElm.textContent}${dateElm.textContent}`.replace(/[\s日]/g, '').replace(/[年月]/g, '-')
-      : yearElm.textContent.trim()
-    return formatDate(new Date(dateText))
+    if (!dateElm) {
+      return formatDate(new Date(yearElm.textContent.trim()))
+    }
+    const yyyy = yearElm.textContent.replace(/年/g, '')
+    const [m, d] = dateElm.textContent.replace(/[\s日]/g, '').split('月')
+    const mm = `00${m}`.slice(-2)
+    const dd = `00${d}`.slice(-2)
+    return `${yyyy}-${mm}-${dd}`
   }
 
   getMediaType() {
